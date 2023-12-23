@@ -1,0 +1,14 @@
+﻿@model AppRole
+
+<h2>Create Role</h2>
+<hr>
+<form asp-action="Create" method="post">
+    <div asp-validation-summery="All" class="text-danger"></div>
+    <div class="mb-3">
+        <label asp-for="Name"></label>
+        <input asp-for="Name" class="form-control">
+    </div>
+
+
+    <button class="btn btn-primary" type="submit">Kaydet</button>
+</form>

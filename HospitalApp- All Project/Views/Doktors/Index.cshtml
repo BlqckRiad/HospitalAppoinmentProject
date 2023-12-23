@@ -1,0 +1,61 @@
+﻿@model IEnumerable<HospitalApp.Models.Doktor>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.DoktorAd)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Dal)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Poliklinik)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.DoktorAd)
+            </td>
+                <td>
+                    @if (item.Dal != null)
+                    {
+                        @Html.DisplayFor(modelItem => item.Dal.DalName)
+                    }
+                    else
+                    {
+                        <text>N/A</text>
+                    }
+                </td>
+                <td>
+                    @if (item.Poliklinik != null)
+                    {
+                        @Html.DisplayFor(modelItem => item.Poliklinik.PolName)
+                    }
+                    else
+                    {
+                        <text>N/A</text>
+                    }
+                </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.DoktorId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.DoktorId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.DoktorId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

@@ -1,0 +1,35 @@
+﻿<!-- RandevuAl.cshtml -->
+@model HospitalApp.Models.Randevu
+
+<h2>Randevu Al</h2>
+
+<form asp-action="RandevuAl" method="post">
+    <div class="form-group">
+        <label for="DoktorId">Doktor Seç:</label>
+        <select asp-for="DoktorId" asp-items="@(new SelectList(ViewBag.Doktorlar, "Value", "Text"))" class="form-control">
+            <option value="">-- Doktor Seç --</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="HastaAdi">Hasta Adı:</label>
+        <input asp-for="HastaAdi" class="form-control" value="@User.Identity.Name" />
+    </div>
+
+    <div class="form-group">
+        <label for="HastaTC">Hasta TC:</label>
+        <input asp-for="HastaTC" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label for="HastaTelefonNo">Telefon Numarası:</label>
+        <input asp-for="HastaTelefonNo" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label for="RandevuTarihi">Randevu Tarihi:</label>
+        <input asp-for="RandevuTarihi" type="datetime-local" class="form-control" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Randevu Al</button>
+</form>

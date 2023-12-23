@@ -1,0 +1,18 @@
+﻿<!-- Views/Randevu/RandevuKontrol.cshtml -->
+@{
+    ViewData["Title"] = "Randevu Kontrol";
+}
+
+<h2>Randevu Kontrol</h2>
+
+<form asp-action="RandevuKontrol" method="post">
+    <div class="form-group">
+        <label for="hastaTC">Hasta TC:</label>
+        <input type="text" name="hastaTC" class="form-control" required />
+    </div>
+    <button type="submit" class="btn btn-primary">Randevuları Kontrol Et</button>
+</form>
+
+<div class="alert alert-info mt-3">
+    @ViewBag.Mesaj
+</div>

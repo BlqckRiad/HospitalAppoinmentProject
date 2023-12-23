@@ -1,0 +1,53 @@
+﻿<!-- Views/Randevu/RandevuGoster.cshtml -->
+@model List<HospitalApp.Models.Randevu>
+
+@{
+    ViewData["Title"] = "Randevu Goster";
+}
+
+<h2>Randevular</h2>
+
+@if (Model.Any())
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Hasta Adı</th>
+                <th>Hasta TC</th>
+                <th>Doktor Adı</th>
+                <th>Poliklinik Adı</th>
+                <th>Randevu Tarihi</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var randevu in Model)
+            {
+                <tr>
+                    <td>@randevu.HastaAdi</td>
+                    <td>@randevu.HastaTC</td>
+                    
+                    <td>
+                        @{
+                            var doktorAdi = (randevu.Doktor != null ? randevu.Doktor.DoktorAd : "Doktor Adı Bulunamadı");
+
+                        }
+                        @Html.Raw(doktorAdi)
+                    </td>
+                    <td>
+                        @{
+                            var polAdi = (randevu.Doktor != null && randevu.Doktor.Poliklinik != null) ? randevu.Doktor.Poliklinik.PolName : "Poliklinik Adı Bulunamadı";
+
+                        }
+                        @Html.Raw(polAdi)
+                    </td>
+                    <td>@randevu.RandevuTarihi.ToString("dd.MM.yyyy HH:mm")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>TC kimliğinize ait randevu bulunmamaktadır.</p>
+}
+

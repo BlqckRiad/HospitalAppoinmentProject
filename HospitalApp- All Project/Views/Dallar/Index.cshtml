@@ -1,0 +1,36 @@
+﻿@model IEnumerable<HospitalApp.Models.Dal>
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+@{
+    ViewData["Title"] = Localizer["DalTitle"];
+}
+
+
+
+<p>
+    <a asp-action="Create">@Localizer["Create"]</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.DalName)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.DalName)
+            </td>
+            <td>
+                    <a asp-action="Edit" asp-route-id="@item.DalId">@Localizer["Edit"]</a> |
+                    <a asp-action="Details" asp-route-id="@item.DalId">@Localizer["Details"]</a> |
+                    <a asp-action="Delete" asp-route-id="@item.DalId">@Localizer["Delete"]</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

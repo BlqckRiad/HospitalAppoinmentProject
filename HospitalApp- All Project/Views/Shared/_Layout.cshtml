@@ -1,0 +1,152 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Saygi</title>
+    <link rel="icon" href="~/css/saygi-hastanesi-logo.png" type="image/x-icon">
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/HospitalApp.styles.css" asp-append-version="true" />
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container-fluid">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">@Localizer["Saygi"]</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav ">
+                        @if (User.Identity?.IsAuthenticated == true)
+                        {
+                            if (User.IsInRole("admin"))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Index">Users</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Roles" asp-action="Index">Roles</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Dallar" asp-action="Index">Dallar</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" href="/api/Dal">Dallar-Api</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Polikliniks" asp-action="Index">Poliklinikler</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Doktors" asp-action="Index">Doktorlar</a>
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Randevu" asp-action="RandevuAl">RandevuAl</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Randevu" asp-action="RandevuKontrol">RandevuKontrol</a>
+                                </li>
+                            }
+                        }
+                    </ul>
+
+                    <ul class="navbar-nav ms-auto">
+                        @if (User.Identity?.IsAuthenticated == true)
+                        {
+                            <li class="nav-item">
+                                <span id="languageSelector">
+                                    <select id="languageDropdown">
+                                        <option value="tr-TR">Türkçe</option>
+                                        <option value="en-US">English</option>
+                                    </select>
+                                    <button id="changeLanguageBtn" class="btn btn-primary">Dil Değiştir</button>
+                                </span>
+
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark">Merhaba, @User.Identity.Name</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Logout">Logout</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <span id="languageSelector">
+                                    <select id="languageDropdown">
+                                        <option value="tr-TR">Türkçe</option>
+                                        <option value="en-US">English</option>
+                                    </select>
+                                    <button id="changeLanguageBtn" class="btn btn-primary">Dil Değiştir</button>
+                                </span>
+
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login">Login</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Create">Register</a>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+    <hr />
+    <div class="container-fluid text-center footer">
+        Coded with &hearts; by <a href="https://github.com/BlqckRiad">BlqckRiad.</a>
+    </div>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var languageSelector = document.getElementById('languageDropdown');
+            var changeLanguageBtn = document.getElementById('changeLanguageBtn');
+
+            // Sayfa yüklendiğinde dil seçimini kullanıcı tercihine göre ayarla
+            var savedLanguage = localStorage.getItem('selectedLanguage');
+            if (savedLanguage) {
+                languageSelector.value = savedLanguage;
+            }
+
+            // Dil değişikliği düğmesine tıklanınca çağrılacak fonksiyon
+            changeLanguageBtn.addEventListener('click', function () {
+                var selectedLanguage = languageSelector.value;
+                changeLanguage(selectedLanguage);
+            });
+
+            // Dil değişikliği durumunda çağrılacak fonksiyon
+            function changeLanguage(selectedLanguage) {
+                localStorage.setItem('selectedLanguage', selectedLanguage);
+                var currentUrl = window.location.href;
+                var baseUrl = currentUrl.split('?')[0];
+                var newUrl = baseUrl + '?ui-culture=' + selectedLanguage;
+                window.location.href = newUrl;
+            }
+        });
+    </script>
+
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

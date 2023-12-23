@@ -1,0 +1,43 @@
+﻿@model HospitalApp.Models.Doktor
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Doktor</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="DoktorAd" class="control-label"></label>
+                <input asp-for="DoktorAd" class="form-control" />
+                <span asp-validation-for="DoktorAd" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DalId" class="control-label"></label>
+                <select asp-for="DalId" class="form-control" asp-items="@(ViewBag.Dallar != null ? new SelectList(ViewBag.Dallar, "Value", "Text") : null)"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="PolId" class="control-label"></label>
+                <select asp-for="PolId" class="form-control" asp-items="@(ViewBag.Poliklinikler != null ? new SelectList(ViewBag.Poliklinikler, "Value", "Text") : null)"></select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
